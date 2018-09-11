@@ -1,0 +1,36 @@
+{
+  "hits": [
+    {
+      "search_api_id": "entity:paragraph/23571:en",
+      "search_api_datasource": "entity:paragraph",
+      "search_api_language": "en",
+      "objectID": "entity:paragraph/23571:en"
+    },
+    {
+      "name": "Edgar Wright",
+      "image": "/sites/default/files/speaker-headshots/Edgar-Wright_CAA-Speakers_Web.jpg",
+      "url": "/caaspeakers/edgar-wright",
+      "types": "",
+      "topics": "Creativity, Storytelling",
+      "objectID": "577066740",
+      "_highlightResult": {
+        "name": {
+          "value": "Edgar Wright",
+          "matchLevel": "none",
+          "matchedWords": [
+          ]
+        },
+        "types": {
+          "value": "",
+          "matchLevel": "none",
+          "matchedWords": [
+          ]
+        },
+        "topics": {
+          "value": "Creativity, Storytelling",
+          "matchLevel": "none",
+          "matchedWords": [
+          ]
+        }
+      }
+    }

@@ -1,0 +1,24 @@
+{
+  "name": "caa-s",
+  "version": "0.1.0",
+  "private": true,
+  "devDependencies": {
+    "react-scripts": "1.1.5"
+  },
+  "dependencies": {
+    "algolia-react-autocomplete": "^1.0.5",
+    "algoliasearch": "^3.30.0",
+    "axios": "^0.18.0",
+    "react": "^16.4.2",
+    "react-autosuggest": "^9.4.0",
+    "react-dom": "^16.4.2",
+    "react-instantsearch": "^5.2.3",
+    "react-router-dom": "^4.3.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}
