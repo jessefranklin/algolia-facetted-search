@@ -19,7 +19,8 @@ import PropTypes from 'prop-types';
 
 import Autocomplete from "algolia-react-autocomplete";
 import "algolia-react-autocomplete/build/css/index.css";
-
+import Router from 'next/router'
+import qs from 'qs'
 
 import { Link } from 'react-router-dom';
  
@@ -27,6 +28,15 @@ const searchClient = algoliasearch(
   'testingHHJZ8341BW',
   '0071873edbe8d1409d072ef90f3ff8a0'
 );
+
+
+const updateAfter = 700;
+
+const createURL = state => `?${qs.stringify(state)}`;
+
+const searchStateToUrl = (props, searchState) =>
+  searchState ? `${props.location.pathname}${createURL(searchState)}` : '';
+const urlToSearchState = location => qs.parse(location.search.slice(1));
 
 const indexes = [
   {
@@ -48,17 +58,70 @@ const indexes = [
 ]
 
 
+
+
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selection: null
+      searchState: { ...qs.parse(window.location.search.slice(1)) },
+      selection: null,
+      category: null
     };
   }
-  onSelectionChange = selection => this.setState({ selection });
-  onInputChange = (v) => {
-    console.log('v')
+  componentWillReceiveProps(props) {
+    if (props.location !== this.props.location) {
+      this.setState({ searchState: urlToSearchState(props.location) });
+    }
   }
+  onSelectionChange = selection => this.setState({ selection });
+
+  onSuggestionSelected = (suggestion) => {
+    
+    const sansRefine = {
+      ...this.state.searchState, refinementList: {}
+    }
+    console.log(sansRefine);
+    this.setState({ sansRefine });
+    this.props.history.push(searchStateToUrl(this.props,sansRefine));
+  }
+  onSubmit = (suggestion) => {
+    console.log('Submitted', suggestion)
+  }
+  onInputChange = (v) => {
+    console.log('v');
+  }
+  handleKeyPress = (e) => {
+    
+
+    if (e.key === 'Enter') {
+      const queryx = {
+        ...this.state.searchState, 
+        query: e.target.value
+      }
+      this.setState({ queryx });
+      this.props.history.push(searchStateToUrl(this.props,queryx));
+    }
+  }
+
+  closeDropdown=()=>{
+    console.log('close')
+    this.setState({
+      open: false,
+    });
+  }
+
+  onSearchStateChange = searchState => {
+    clearTimeout(this.debouncedSetState);
+    this.debouncedSetState = setTimeout(() => {
+      this.props.history.push(
+        searchStateToUrl(this.props, searchState),
+        searchState
+      );
+    }, updateAfter);
+    this.setState({ searchState });
+  };
+
   render() {
     const { selection } = this.state;
     return (
@@ -68,23 +131,33 @@ class App extends Component {
         </header>
 
         <div className="container">
-          <InstantSearch searchClient={searchClient} indexName="drupalspeakers">
+          <InstantSearch 
+            searchClient={searchClient} indexName="drupalspeakers"
+            searchState={this.state.searchState}
+            onSearchStateChange={this.onSearchStateChange}
+            createURL={createURL}
+            >
             <Configure hitsPerPage={60} />
-            <Autocomplete indexes={indexes} onSelectionChange={selectedSuggestion => console.log(selectedSuggestion)}>
+            <Autocomplete 
+              indexes={indexes}
+              >
               <input
                 key="input" 
                 type="search"
-                id="aa-search-input searchbox"
-                className="aa-input-search"
+                id="aa-search-input"
+                className="aa-input-search searchbox"
                 placeholder="Search for Speakers"
                 name="search"
-                autoComplete="off"
+                autoComplete="off"  
+                onKeyPress={this.handleKeyPress}
+                onKeyUp={this.onSuggestionSelected}
               />
-              {/* <SearchBox key="input" type="search" className="aa-input-search searchbox" autocomplete="off"  placeholder="" /> */}
+
+              {/* <SearchBox key="input" type="search" className="aa-input-search" autocomplete="off"  onKeyUp={this.onSuggestionSelected} placeholder="" /> */} 
             </Autocomplete>
 
             <div className="search-panel">
-              
+              <br /><br />
               <CurrentRefinements />
               <ClearRefinements />
             
@@ -93,7 +166,7 @@ class App extends Component {
                 <div className="filter-cell">
                   Types
                   <div className="search-panel__filters">
-                    <RefinementList attribute="types" limit={99}
+                    <RefinementList attribute="types" limit={10}
                       transformItems={(types)=>{
                         const typex = types.filter(type => {
                           return type.label.indexOf(',')===-1;
@@ -106,7 +179,7 @@ class App extends Component {
                 <div className="filter-cell">
                   Topics
                   <div className="search-panel__filters">
-                    <RefinementList attribute="topics" limit={99}
+                    <RefinementList attribute="topics" limit={10}
                     transformItems={(types)=>{
                       const typex = types.filter(type => {
                         return type.label.indexOf(',')===-1;
@@ -159,6 +232,14 @@ function Hit(props,goToSpeaker) {
 
 Hit.propTypes = {
   hit: PropTypes.object.isRequired,
+};
+
+
+App.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }),
+  location: PropTypes.object.isRequired,
 };
 
 
