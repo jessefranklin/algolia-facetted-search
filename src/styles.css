@@ -1,0 +1,86 @@
+
+.img-container {
+    width: 30%;
+    padding-bottom: 30%;
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.img-container a {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.search-panel__results {
+    padding-top: 150px;
+}
+
+.img-container img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -o-object-fit: cover;
+    object-fit: cover;
+    -o-object-position: top left;
+    object-position: top left;
+}
+
+.ais-SearchBox.aa-input-search.hidden {
+    display: none;
+}
+
+.filter-row {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.filter-cell {
+    display: block;
+    position: relative;
+    width: 30%;
+}
+
+.aa-input-container {
+    display: inline-block;
+    position: relative; }
+
+
+.filter-cell .search-panel__filters {
+    position: relative;
+    display:none;
+
+}
+
+.filter-cell .search-panel__filters.show {
+    display: block;
+    
+}
+
+
+.ais-RefinementList-item label {
+    width: 100%;
+    display: block;
+}
+
+.search-panel__filters .ais-RefinementList {
+    position: absolute;
+    max-height: 293px;
+    min-width: 90%;
+    overflow-x: hidden;
+    background: #fff;
+    z-index: 3;
+    padding: 10px 0 30px 0;
+}
+
+.ais-RefinementList-item input{
+    visibility: hidden;
+}
+
+.ais-RefinementList-item.ais-RefinementList-item--selected {
+    background: #0096db;
+    color: #fff;
+    border-bottom: 1px solid #fff;
+}

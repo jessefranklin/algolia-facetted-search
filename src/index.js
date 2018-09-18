@@ -6,8 +6,8 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import registerServiceWorker from './registerServiceWorker';
 
 ReactDOM.render(
-    <Router>
-    <Route path="/" component={App} />
+  <Router>
+    <Route path="/caaspeakers/search" component={App} />
   </Router>,
   document.getElementById('root'));
 registerServiceWorker();
