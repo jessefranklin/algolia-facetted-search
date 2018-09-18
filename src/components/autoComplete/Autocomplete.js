@@ -60,6 +60,7 @@ class Autocomplete extends React.PureComponent {
   onBlur = () => {
     document.addEventListener('click', this.closeMenu);
   };
+
   closeMenu = () => this.setState({
     open: false,
   });
@@ -103,6 +104,9 @@ class Autocomplete extends React.PureComponent {
       case 'Enter':
         // console.log(event.target.value);
         this.props.query(event.target.value);
+        this.setState({
+          open: false,
+        });
         // this.onSuggestionClick(
         //   this.suggestions.current,
         //   this.suggestions.current.category,
