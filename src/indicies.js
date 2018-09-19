@@ -15,7 +15,10 @@ export const indicies = [
       displayKey: 'types',
       templates: {
         header: (suggestion) => <h2 className="aa-suggestions-category">Types</h2>,
-        suggestion: (suggestion, isSelected) => <div data-selected={isSelected}><a href={suggestion.url}>{suggestion.types}</a></div>,
+        suggestion: (suggestion, isSelected) => {
+          const url = '/caaspeakers/search/types/'+suggestion.types;
+          return <div data-selected={isSelected}><a href={url}>{suggestion.types}</a></div>
+        },
         empty: () => <div class="aa-empty">No matching players</div>
       }
     }

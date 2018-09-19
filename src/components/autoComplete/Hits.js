@@ -74,11 +74,21 @@ class Hits extends React.PureComponent {
   };
 
   render() {
+
+    const hits = this.state.hits;
+    const {displayKey} = this.props;
+    const hitsClean = displayKey !== 'names' ? removeDuplicates(removeComma(this.state.hits,displayKey)): null;
+
     return (
       <span className="aa-dropdown-menu" role="listbox">
+        
         {this.renderHeader()}
         <div className="aa-suggestions">
-          {this.state.hits.map(this.renderHit)}
+          {displayKey == 'types' ?(
+            hitsClean.map(this.renderHit)
+          ):(
+            hits.map(this.renderHit)
+          )}
         </div>
       </span>
     );
@@ -86,3 +96,21 @@ class Hits extends React.PureComponent {
 }
 
 export default Hits;
+
+const removeComma = (hits,type) => {
+  return hits.filter((hit) => {
+    const textMatch = hit[type].indexOf(',') === -1 && hit[type].length;
+    return textMatch;
+  })
+}
+
+const removeDuplicates = (hits,type) => {
+    const arr = [],collection = [];
+    hits.map((hit) => {
+      if(arr.indexOf(hit[type]) == -1) {
+        arr.push(hit[type]);
+        collection.push(hit);
+      }
+    })
+    return collection;
+}

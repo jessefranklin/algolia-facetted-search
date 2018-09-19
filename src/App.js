@@ -21,7 +21,7 @@ import Autocomplete from './components';
 
 import './styles.css';
 
-const updateAfter = 700;
+const updateAfter = 750;
 
 class App extends Component {
   constructor(props) {

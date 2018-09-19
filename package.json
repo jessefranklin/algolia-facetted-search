@@ -18,11 +18,13 @@
     "react-autosuggest": "^9.4.0",
     "react-dom": "^16.4.2",
     "react-instantsearch": "^5.2.3",
-    "react-router-dom": "^4.3.1"
+    "react-router-dom": "^4.3.1",
+    "rename": "^1.0.4",
+    "renamer": "^1.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && cp -v build/static/css/main.*.css caa_search/css/main.css && cp -v build/static/js/main.*.js caa_search/js/main.js",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   }

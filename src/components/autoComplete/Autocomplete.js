@@ -143,15 +143,19 @@ class Autocomplete extends React.PureComponent {
     if (!this.state.open) {
       style.display = 'none';
     }
+    
+    const filterIndeces = this.props.indexes;
     return (
       <div className="algolia-react-autocomplete">
         <div className="aa-input-container">{this.renderChildren()}
         </div>
         <div className="aa-dropdown-menus" style={style}>
-          {this.props.indexes.map(index => (
+
+          {filterIndeces.map(index => (
             <Hits
               key={index.source.indexName}
               indexName={index.source.indexName}
+              displayKey={index.displayKey}
               query={this.state.query}
               index={index}
               selected={this.state.selected}
